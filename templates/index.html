@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>Chatbot UI</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    .chat-container {
+      min-height: 400px ;
+      max-height: 400px; /* Adjust the height as needed */
+    }
+      .avatar {
+    width: 40px; /* Set the width of the avatar */
+    height: 40px; /* Set the height of the avatar */
+  }
+
+  .message {
+    flex: 1; /* Allow the message box to take remaining space */
+  }
+  .tab {
+    display: inline-block;
+    margin-left: 1em;
+}
+.bgimg {
+    background-image: url('static/images/15410.jpg');
+    background: cover;
+}
+  </style>
+</head>
+<body class="h-screen flex items-center justify-center bg-cover" background="static/images/15410.jpg">
+  <div class="w-full max-w-lg p-4 bg-white shadow-md rounded-lg border-2 border-black" style="max-width: 510px;">      
+<nav class="bg-white grid grid-cols-3 p-4 shadow-md border-2 border-black flex items-center items-start">
+  <div><img src="static/images/rta.png"></div>
+      <div class="grid grid-cols-2">
+        <div>
+          <h1 class="border-2 border-black text-2xl font-bold text-center bg-blue-900 text-white">F18</h1>
+        </div>
+        <div>
+          <h1 class="border-2 border-black text-2xl font-bold text-center">Bot</h1>  
+        </div>
+      </div>
+</nav>
+    <div class="bg-white p-2 shadow-md mt-2 chat-container overflow-y-auto border-2 border-black">
+          <br>
+      <!-- Example chat messages -->
+      <!-- Inside the <div class="bg-white p-4 shadow-md mt-2 chat-container ...> element -->
+<div class="mb-2">
+  <div class="flex items-start">
+    <div class="rounded-full bg-blue-900 text-white p-2 border-2 border-black" >
+     <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 576 512"><style>svg{fill:#ffffff}</style><path d="M288 0C422.4 0 512 35.2 512 80V96l0 32c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32l0 160c0 17.7-14.3 32-32 32v32c0 17.7-14.3 32-32 32H416c-17.7 0-32-14.3-32-32V448H192v32c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32l0-32c-17.7 0-32-14.3-32-32l0-160c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h0V96h0V80C64 35.2 153.6 0 288 0zM128 160v96c0 17.7 14.3 32 32 32H272V128H160c-17.7 0-32 14.3-32 32zM304 288H416c17.7 0 32-14.3 32-32V160c0-17.7-14.3-32-32-32H304V288zM144 400a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm288 0a32 32 0 1 0 0-64 32 32 0 1 0 0 64zM384 80c0-8.8-7.2-16-16-16H208c-8.8 0-16 7.2-16 16s7.2 16 16 16H368c8.8 0 16-7.2 16-16z"/></svg>
+      </div>
+    <div class="ml-2 bg-gray-200 p-2 rounded-md border-2 border-black">Hello! My name is <b>BusBot</b><br>How may I be of assistance today?</div>
+  </div>
+</div>
+<!-- Repeat the above structure for more chat messages -->
+
+      <!-- Repeat the above structure for more chat messages -->
+    </div>
+    <div class="bg-white p-2 shadow-md mt-2 flex items-center border-2 border-black">
+      <input id="userInput" type="text" placeholder="Ask a question..." class="ml-2 border rounded-md px-2 py-1 w-3/4 focus:outline-none">
+      <button class="bg-blue-900 text-white rounded-md px-4 py-1 ml-2 border-2 border-black">Send</button>
+    </div> <!-- Fix: Move this closing div tag here -->
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const inputElement = document.querySelector('input[type="text"]');
+      const sendButton = document.querySelector('button'); // Get the send button
+      const chatContainer = document.querySelector('.chat-container');
+  
+      sendButton.addEventListener("click", function () { // Event listener for the send button click
+        const userMessage = inputElement.value;
+        if (userMessage.trim() === "") {
+          return;
+        }
+  
+        // Display user message
+        appendMessage("You", userMessage);
+  
+        // Send user message to Flask server
+        fetch("/getresponse", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message: userMessage }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            // Display bot response
+            appendMessage("Bot", data.response);
+          })
+          .catch(error => {
+            console.error("Error:", error);
+          });
+  
+        inputElement.value = "";
+      });
+  
+      function appendMessage(sender, message) {
+        // ... (the rest of your appendMessage function)
+        const messageDiv = document.createElement("div");                
+  messageDiv.classList.add("mb-2");
+  
+  // Check if the message is from the user or the bot
+  if (sender === "You") {
+    messageDiv.innerHTML = `
+      <div class="flex items-start justify-end">
+        <div class="mr-2 bg-blue-200 p-2 rounded-md border-2 border-black">${message}</div>
+        <div class="icon-container rounded-full bg-blue-900 text-white p-2 border-2 border-black"><svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="-65 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg></div>
+      </div>`;
+  } else {
+    messageDiv.innerHTML = `
+      <div class="flex items-start">
+        <div class="rounded-full bg-blue-900 text-white p-2 align-items-center border-2 border-black">
+          <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 576 512"><style>svg{fill:#ffffff}</style><path d="M288 0C422.4 0 512 35.2 512 80V96l0 32c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32l0 160c0 17.7-14.3 32-32 32v32c0 17.7-14.3 32-32 32H416c-17.7 0-32-14.3-32-32V448H192v32c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32l0-32c-17.7 0-32-14.3-32-32l0-160c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h0V96h0V80C64 35.2 153.6 0 288 0zM128 160v96c0 17.7 14.3 32 32 32H272V128H160c-17.7 0-32 14.3-32 32zM304 288H416c17.7 0 32-14.3 32-32V160c0-17.7-14.3-32-32-32H304V288zM144 400a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm288 0a32 32 0 1 0 0-64 32 32 0 1 0 0 64zM384 80c0-8.8-7.2-16-16-16H208c-8.8 0-16 7.2-16 16s7.2 16 16 16H368c8.8 0 16-7.2 16-16z"/></svg></div>
+        <div class="ml-2 bg-gray-200 p-2 rounded-md border-2 border-black">${message}</div>
+      </div>`;
+  }
+  
+  chatContainer.appendChild(messageDiv);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+      }
+      
+      inputElement.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          sendButton.click(); // Trigger the send button click when Enter is pressed
+        }
+      });
+    });
+  
+    const dropdownButton = document.getElementById('dropdownDefaultButton'); // Get the dropdown button
+    const dropdownMenu = document.getElementById('dropdown'); // Get the dropdown menu
+  
+    // Function to toggle the dropdown menu
+    function toggleDropdown() {
+
+      dropdownMenu.classList.toggle('hidden');
+    }
+    
+    // Event listener for clicking the dropdown button
+    dropdownButton.addEventListener('click', function (event) {
+      toggleDropdown();
+      event.stopPropagation(); // Prevent the click event from propagating to document click listener
+    });
+  
+    // Event listener to close the dropdown menu when clicking outside of it
+    document.addEventListener('click', function (event) {
+      if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+        dropdownMenu.classList.add('hidden');
+      }
+    });
+  </script>
+  
+  </body>
+</html>

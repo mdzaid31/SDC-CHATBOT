@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>Chatbot UI</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    .chat-container {
+      max-height: 400px; /* Adjust the height as needed */
+    }
+      .avatar {
+    width: 40px; /* Set the width of the avatar */
+    height: 40px; /* Set the height of the avatar */
+  }
+
+  .message {
+    flex: 1; /* Allow the message box to take remaining space */
+  }
+  .tab {
+    display: inline-block;
+    margin-left: 1em;
+}
+.bgimg {
+    background-image: url('static/images/15410.jpg');
+    background: cover;
+}
+  </style>
+</head>
+<body class="h-screen flex items-center justify-center bg-cover" background="static/images/15410.jpg">
+    <!---->
+    <div class="w-full max-w-lg p-4 bg-white shadow-md rounded-lg border-2 border-black"> <!--main block-->
+        <div class="bg-white p-4 shadow-md border-2 border-black flex items-center grid grid-cols-3"><!--Banner-->
+            <div><img src="static/images/rta.png"></div>
+            <div class="grid grid-cols-2">
+                <div>
+                  <h1 class="border-2 border-black text-2xl font-bold text-center bg-blue-900 text-white">F18</h1>
+                </div>
+                <div>
+                  <h1 class="border-2 border-black text-2xl font-bold text-center">Bot</h1>  
+                </div>
+              </div>
+              <div class="grid grid-cols-2">
+                <div></div>              
+<button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white bg-blue-900 hover:bg-blue-900 focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-900 dark:hover:bg-blue-900 " type="button"><svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+  </svg></button>
+<!-- Dropdown menu -->
+<div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+      </li>
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+      </li>
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+      </li>
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
+      </li>
+    </ul>
+</div>
+</div>
+<div class="bg-white p-2 shadow-md mt-2 chat-container overflow-y-auto border-2 border-black">
+    <div id="feedContainer" class=" bgimg border-2 border-black max-w-md mx-auto bg-blue-900 shadow-md mt-4 hidden grid grid-row-10 p-2">
+      <div class="container mx-auto py-1">
+    </div>
+    </div>
+</body>
+</html>
